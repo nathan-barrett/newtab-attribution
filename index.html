@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Attribution Event Test</title>
+  </head>
+  <body>
+    <h1>Trigger Attribution Events</h1>
+
+    <button id="btn-view">Fire: impression</button>
+    <button id="btn-click">Fire: click</button>
+    <button id="btn-conversion">Fire: conversion</button>
+
+    <pre id="log">—</pre>
+
+    <script>
+      function dispatchAttributionEvent(detail) {
+        const event = new CustomEvent("FirefoxAttributionEvent", {
+          detail,
+          bubbles: true,
+          composed: true,
+        });
+        window.dispatchEvent(event);
+        document.getElementById("log").textContent =
+          "Dispatched: " + JSON.stringify(detail, null, 2);
+      }
+
+      document.getElementById("btn-view").addEventListener("click", () => {
+        dispatchAttributionEvent({
+          type: "view",
+          params: {
+            partner_id: "demo-partner",
+            conversion: {
+              task_id: "task-123",
+              vdaf: "count",
+              bits: 8,
+              length: 16,
+              time_precision: 60,
+              default_measurement: 0,
+              index: 1,
+            },
+          },
+        });
+      });
+
+      document.getElementById("btn-click").addEventListener("click", () => {
+        dispatchAttributionEvent({
+          type: "click",
+          params: {
+            partner_id: "demo-partner",
+            conversion: {
+              task_id: "task-123",
+              vdaf: "count",
+              bits: 8,
+              length: 16,
+              time_precision: 60,
+              default_measurement: 0,
+              index: 2,
+            },
+          },
+        });
+      });
+
+      document.getElementById("btn-conversion").addEventListener("click", () => {
+        dispatchAttributionEvent({
+          conversion: {
+            partnerId: "demo-partner",
+            lookbackDays: 7,
+            impressionType: "default",
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
