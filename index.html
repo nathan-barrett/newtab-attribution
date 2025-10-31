@@ -15,7 +15,7 @@
 
     <script>
       function dispatchAttributionEvent(detail) {
-        const event = new CustomEvent("FirefoxAttributionEvent", {
+        const event = new CustomEvent("FirefoxConversionNotification", {
           detail,
           bubbles: true,
           composed: true,
@@ -63,11 +63,9 @@
 
       document.getElementById("btn-conversion").addEventListener("click", () => {
         dispatchAttributionEvent({
-          conversion: {
             partnerId: "demo-partner",
             lookbackDays: 7,
             impressionType: "default",
-          },
         });
       });
     </script>
